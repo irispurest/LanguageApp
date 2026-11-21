@@ -8,9 +8,6 @@ import {
 } from '../src/core/content/schemas';
 import { printValidationResult, validateContentProject } from './lib/validate-content';
 
-const CONTENT_DIR = path.join(process.cwd(), 'content', 'ja');
-const MANIFEST_PATH = path.join(CONTENT_DIR, 'manifest.json');
-
 function fail(message: string): never {
   console.error(`Ошибка: ${message}`);
   process.exit(1);
@@ -61,6 +58,9 @@ const title = args.title?.trim();
 const type = args.type ?? 'grammar';
 const levelArg = (args.level ?? 'n5').toLowerCase();
 const dryRun = args['dry-run'] === 'true';
+const courseId = args.course?.trim() || 'ja-ru';
+const contentDir = path.join(process.cwd(), 'content', courseId);
+const manifestPath = path.join(contentDir, 'manifest.json');
 
 if (!title) {
   fail('нужен --title "Название урока"');
@@ -73,7 +73,7 @@ if (type !== 'grammar') {
   );
 }
 
-const rawManifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8')) as unknown;
+const rawManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as unknown;
 const manifestResult = ManifestSchema.safeParse(rawManifest);
 
 if (!manifestResult.success) {
@@ -85,6 +85,11 @@ if (!manifestResult.success) {
 }
 
 const manifest = manifestResult.data;
+
+if (manifest.courseId !== courseId) {
+  fail(`courseId в манифесте "${manifest.courseId}" не совпадает с --course "${courseId}"`);
+}
+
 const level = manifest.levels.find(
   (item) => item.id === levelArg || item.code.toLowerCase() === levelArg,
 );
@@ -114,7 +119,8 @@ if (!section) {
 const slug = slugify(title);
 const explicitId = args.id?.trim();
 const baseId =
-  explicitId ?? (slug.length >= 3 ? `ja-${level.code.toLowerCase()}-${slug}` : undefined);
+  explicitId ??
+  (slug.length >= 3 ? `${manifest.courseId}-${level.code.toLowerCase()}-${slug}` : undefined);
 
 if (!baseId) {
   fail('не удалось построить ID из названия. Укажи --id в латинице, например ja-n5-wa-ga');
@@ -125,7 +131,10 @@ if (!idResult.success) {
   fail(`некорректный --id: ${idResult.error.issues[0]?.message ?? 'неизвестная ошибка'}`);
 }
 
-if (section.lessons.includes(baseId) || fs.existsSync(path.join(CONTENT_DIR, 'lessons', `${baseId}.json`))) {
+if (
+  section.lessons.includes(baseId) ||
+  fs.existsSync(path.join(contentDir, 'lessons', `${baseId}.json`))
+) {
   fail(`урок "${baseId}" уже существует`);
 }
 
@@ -141,7 +150,7 @@ if (!grammarIdResult.success) {
 
 if (
   manifest.grammar.includes(grammarId) ||
-  fs.existsSync(path.join(CONTENT_DIR, 'grammar', `${grammarId}.json`))
+  fs.existsSync(path.join(contentDir, 'grammar', `${grammarId}.json`))
 ) {
   fail(`грамматическая тема "${grammarId}" уже существует`);
 }
@@ -149,7 +158,7 @@ if (
 const grammarTopic: GrammarTopic = {
   schemaVersion: 1,
   id: grammarId,
-  language: manifest.language,
+  courseId: manifest.courseId,
   level: level.code,
   title,
   summary: 'Черновая тема: заполнить краткое объяснение.',
@@ -171,7 +180,7 @@ const lesson: Lesson = {
   schemaVersion: 1,
   id: baseId,
   type: 'grammar',
-  language: manifest.language,
+  courseId: manifest.courseId,
   level: level.code,
   title,
   subtitle: 'Черновой урок',
@@ -216,15 +225,15 @@ if (dryRun) {
   process.exit(0);
 }
 
-writeJson(path.join(CONTENT_DIR, 'grammar', `${grammarId}.json`), grammarTopic);
-writeJson(path.join(CONTENT_DIR, 'lessons', `${baseId}.json`), lesson);
-writeJson(MANIFEST_PATH, manifest);
+writeJson(path.join(contentDir, 'grammar', `${grammarId}.json`), grammarTopic);
+writeJson(path.join(contentDir, 'lessons', `${baseId}.json`), lesson);
+writeJson(manifestPath, manifest);
 
 console.log(`Создан урок: ${baseId}`);
 console.log(`Создана грамматическая тема: ${grammarId}`);
 console.log(`Добавлено в раздел: ${level.code} / ${section.id}`);
 console.log(`packVersion: ${manifest.packVersion}`);
 
-const result = validateContentProject(process.cwd());
+const result = validateContentProject(process.cwd(), { courseId });
 printValidationResult(result);
 process.exit(result.ok ? 0 : 1);

@@ -5,11 +5,11 @@
 Данные делятся на три группы:
 1. **Контент** — JSON course packs, не хранится в БД (только ссылки по ID).
 2. **Пользовательские данные** — `user.db`, read/write: прогресс, карточки, журнал.
-3. **Словарь** — `dictionary-ja.db`, read-only asset: статьи и поисковый индекс.
+3. **Словарь** — `dictionary-ja-ru.db`, read-only asset: статьи и поисковый индекс.
 
 ## Идентификаторы и время
 
-- ID контента — стабильные строки с префиксом: `ja-n5-desu-masu`, `ex-...`, `text-...`.
+- ID контента — стабильные строки с префиксом курса: `ja-ru-n5-desu-masu`, `ja-ru-grammar-...`, `ja-ru-n5-self-intro`.
 - ID словарной статьи — `jmdict_id` из JMdict (строка, например `1000040`), плюс внутренний `rowid` для FTS.
 - ID карточек/колод — строки (UUID или стабильные составные ключи).
 - Время — epoch milliseconds UTC (`INTEGER`). Локальное время — только для отображения и границы дня.
@@ -21,8 +21,8 @@
 
 | Поле | Тип | Описание |
 |---|---|---|
+| `course_id` | TEXT PK | ID курса (`ja-ru`) |
 | `lesson_id` | TEXT PK | ID урока из course pack |
-| `pack_id` | TEXT | ID пака |
 | `status` | TEXT | `not_started`, `in_progress`, `completed` |
 | `score` | INTEGER | Правильных ответов |
 | `total` | INTEGER | Всего упражнений |
@@ -36,6 +36,7 @@
 | Поле | Тип | Описание |
 |---|---|---|
 | `id` | INTEGER PK | Автоинкремент |
+| `course_id` | TEXT | Курс (`ja-ru`) |
 | `lesson_id` | TEXT | Урок |
 | `started_at` | INTEGER | Начало |
 | `finished_at` | INTEGER | Конец, nullable |
@@ -72,6 +73,7 @@
 | Поле | Тип | Описание |
 |---|---|---|
 | `id` | TEXT PK | ID карточки |
+| `course_id` | TEXT | Курс-источник (`ja-ru`) |
 | `deck_id` | TEXT FK | Колода |
 | `kind` | TEXT | `vocab`, `grammar` |
 | `dictionary_entry_id` | TEXT | `jmdict_id`, nullable для грамматики |
@@ -142,6 +144,7 @@
 
 | Поле | Тип | Описание |
 |---|---|---|
+| `course_id` | TEXT PK | ID курса (`ja-ru`) |
 | `grammar_point_id` | TEXT PK | ID грамматической темы |
 | `status` | TEXT | `learned` / `not_started` |
 | `source` | TEXT | `lesson` / `manual` |
@@ -152,8 +155,8 @@
 
 | Поле | Тип | Описание |
 |---|---|---|
+| `course_id` | TEXT PK | ID курса (`ja-ru`) |
 | `text_id` | TEXT PK | ID текста |
-| `pack_id` | TEXT | Пак |
 | `last_token_index` | INTEGER | Позиция чтения |
 | `completed` | INTEGER | 0/1 |
 | `updated_at` | INTEGER | Обновлено |
@@ -165,14 +168,14 @@
 | `key` | TEXT PK | Настройка |
 | `value` | TEXT | JSON/строка |
 
-Примеры: `furigana_enabled`, `theme`, `last_active_lesson_id`.
+Примеры: `furigana_enabled`, `theme`, `active_course_id` (`ja-ru`), `last_active_lesson_id`.
 
 ### Служебные таблицы
 
 - `app_meta(key, value)` — версия контента, версия словаря, флаги.
 - `PRAGMA user_version` — версия схемы `user.db`.
 
-## `dictionary-ja.db`
+## `dictionary-ja-ru.db`
 
 ### `metadata`
 
@@ -266,7 +269,7 @@ FTS5-таблица для поиска:
 
 ## Инварианты
 
-1. `dictionary-ja.db` никогда не пишется из приложения.
+1. `dictionary-ja-ru.db` никогда не пишется из приложения.
 2. `user.db` не содержит копию всего словаря, только снимки карточек.
 3. Прогресс ссылается на стабильные ID контента; переименование ID — запрещено.
 4. Review log неизменяем.
@@ -280,7 +283,7 @@ FTS5-таблица для поиска:
 - `user.db`: `PRAGMA user_version` + последовательные SQL-миграции.
 - Каждая миграция идемпотентна в рамках своей версии.
 - Перед миграцией не удалять данные; при ошибке — откат транзакции.
-- `dictionary-ja.db` версионируется отдельно через `metadata.source_version` и пересобирается с нуля.
+- `dictionary-ja-ru.db` версионируется отдельно через `metadata.source_version` и пересобирается с нуля.
 - Course packs версионируются `schemaVersion`/`packVersion`; несовместимость обнаруживается загрузчиком.
 
 ### Замечание по `expo-sqlite`

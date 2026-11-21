@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 import { StyleSheet, type ColorValue } from 'react-native';
-import { strings } from '@/i18n/ru';
+import { strings } from '@/i18n';
 import { theme } from '@/ui/theme';
 
 function resolveTabColor(color: ColorValue): string {

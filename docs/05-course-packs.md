@@ -7,16 +7,16 @@ Course pack — версионированный набор контента д�
 ## Структура
 
 ```text
-content/ja/
+content/ja-ru/
   manifest.json
   lessons/
-    ja-n5-desu-masu.json
-    ja-n5-wa-ga.json
+    ja-ru-n5-desu-masu.json
+    ja-ru-n5-wa-ga.json
   grammar/
-    ja-grammar-desu-masu.json
-    ja-grammar-wa-ga.json
+    ja-ru-grammar-desu-masu.json
+    ja-ru-grammar-wa-ga.json
   texts/
-    ja-n5-self-intro.json
+    ja-ru-n5-self-intro.json
   index.ts              # generated: статические import'ы для Metro
 ```
 
@@ -27,10 +27,11 @@ content/ja/
 ```json
 {
   "schemaVersion": 1,
-  "packId": "ja",
+  "courseId": "ja-ru",
   "packVersion": "0.1.0",
-  "language": "ja",
-  "title": "Японский",
+  "targetLanguage": "ja",
+  "sourceLanguage": "ru",
+  "title": "Японский для русскоязычных",
   "description": "Единый курс с уровнями N5/N4/N3",
   "license": "proprietary",
   "attribution": [],
@@ -43,7 +44,7 @@ content/ja/
         {
           "id": "n5-particles",
           "title": "Частицы",
-          "lessons": ["ja-n5-wa-ga", "ja-n5-vocab-1"],
+          "lessons": ["ja-ru-n5-wa-ga", "ja-ru-n5-vocab-1"],
           "review": {
             "policy": "after_lesson",
             "maxWords": 10
@@ -52,26 +53,27 @@ content/ja/
       ]
     }
   ],
-  "grammar": ["ja-grammar-wa-ga", "ja-grammar-desu-masu"],
-  "texts": ["ja-n5-self-intro"]
+  "grammar": ["ja-ru-grammar-wa-ga", "ja-ru-grammar-desu-masu"],
+  "texts": ["ja-ru-n5-self-intro"]
 }
 ```
 
 Правила:
-- `packId` и `language` обязательны; один пак — один курс.
+- `courseId`, `targetLanguage`, `sourceLanguage` обязательны; один пак — одна языковая пара.
+- `courseId` входит в ID уроков/тем/текстов: `ja-ru-...`.
 - `schemaVersion` — версия формата, не версия контента.
 - `packVersion` — SemVer контента.
 - `levels[].sections[].lessons` — ordered-список ID уроков; порядок задаётся здесь.
 - ID урока уникален и совпадает с `id` внутри файла.
-- `file` — путь относительно пака; уроки лежат в `lessons/`.
 - `review.policy` — как встраивать повторение: `after_lesson`, `interleaved`, `section_end`, `none`; `review.maxWords` — лимит слов за сессию (см. ниже).
 - `grammar`/`texts` — каталоги для вкладок «Грамматика»/«Тексты». Уроки ссылаются на их ID.
 - `license`/`attribution` — для сторонних материалов.
+- UI-язык не хранится в курсе: он определяется языком системы с fallback на русский. `sourceLanguage` — язык объяснений и переводов.
 
 ### Грамматика и тексты — отдельные каталоги
 
 Это важно для справочных вкладок:
-- грамматическая тема существует как отдельный объект (`grammar/ja-grammar-wa-ga.json`);
+- грамматическая тема существует как отдельный объект (`grammar/ja-ru-grammar-wa-ga.json`);
 - текстовый материал — отдельный объект (`texts/...`);
 - урок грамматики ссылается на `grammarPointIds`, урок текста — на `textId`;
 - вкладка «Грамматика» показывает все темы, даже если урок по ним ещё не пройден;
@@ -81,7 +83,7 @@ content/ja/
 
 ### Уровни и разделы
 
-- В MVP один курс «Японский» с уровнями N5/N4/N3.
+- В MVP один курс `ja-ru` («Японский для русскоязычных») с уровнями N5/N4/N3.
 - Уровень содержит разделы, раздел — упорядоченный список уроков.
 - Новый урок вставляется добавлением ID в нужный раздел и файла в `lessons/`.
 - Перемещение урока — изменение порядка в `lessons` массиве; ID не меняется.
@@ -96,24 +98,24 @@ content/ja/
 | `text` | `textId`, вопросы | текст → «прочитан» |
 | `listening` | позже | позже |
 
-Отдельного типа `review` нет: повторение встраивается через `reviewPolicy` или запускается с Главной/из словаря.
+Отдельного типа `review` нет: повторение встраивается через `review.policy` или запускается с Главной/из словаря.
 
 ## Урок
 
 ```json
 {
   "schemaVersion": 1,
-  "id": "ja-n5-desu-masu",
+  "id": "ja-ru-n5-desu-masu",
   "type": "grammar",
-  "language": "ja",
+  "courseId": "ja-ru",
   "level": "N5",
   "title": "です / ます",
   "subtitle": "Вежливая речь",
   "objective": "Понять, как строится вежливое утверждение.",
-  "grammarPointIds": ["ja-grammar-desu-masu"],
+  "grammarPointIds": ["ja-ru-grammar-desu-masu"],
   "estimatedMinutes": 5,
   "tags": ["copula", "polite"],
-  "sections": [
+  "blocks": [
     {
       "type": "paragraph",
       "text": "В вежливой речи существительное и прилагательное связываются с помощью です."
@@ -256,7 +258,7 @@ content/ja/
 - `correctIndex` в диапазоне;
 - `correctOrder` — валидная перестановка;
 - наличие `explanation`;
-- непустые `sections`/`exercises`;
+- непустые `blocks`/`exercises`;
 - ссылки на словарь/грамматику/тексты;
 - наличие всех `grammar`/`texts` ID из манифеста и уроков;
 - соответствие `level/section` в манифесте и уроке;

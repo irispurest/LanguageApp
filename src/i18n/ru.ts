@@ -1,4 +1,4 @@
-export const strings = {
+export const ru = {
   app: {
     name: 'LanguageApp',
     tagline: 'Японский без сети',
@@ -129,4 +129,4 @@ export const strings = {
   },
 } as const;
 
-export type Strings = typeof strings;
+export type Messages = typeof ru;

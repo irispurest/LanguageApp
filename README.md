@@ -10,6 +10,7 @@
 - TypeScript, strict
 - Expo Router
 - Zod для схем контента
+- `expo-localization` для языка интерфейса (сейчас поддерживается `ru`)
 - Node.js + `tsx` для контентных скриптов
 - Планируется: `expo-sqlite`, FSRS (`ts-fsrs`), JMdict-rus, офлайн-словарь
 
@@ -27,7 +28,7 @@ npx expo start --clear
 ```bash
 npm start                    # Expo Dev Server
 npm run typecheck            # TypeScript strict
-npm run content:validate     # проверка course pack + генерация content/ja/index.ts
+npm run content:validate     # проверка course pack + генерация content/ja-ru/index.ts
 npm run test:content         # тесты схем и валидатора
 npx expo-doctor              # проверка зависимостей/конфигурации
 npx expo export --platform android  # smoke-test бандла
@@ -37,11 +38,12 @@ npx expo export --platform android  # smoke-test бандла
 
 ```bash
 npm run content:new -- \
+  --course ja-ru \
   --type grammar \
   --level n5 \
   --section n5-particles \
   --title "Название урока" \
-  --id ja-n5-my-lesson
+  --id ja-ru-n5-my-lesson
 ```
 
 Добавь `--dry-run`, чтобы посмотреть план без записи.
@@ -54,7 +56,7 @@ src/features/        # экраны по фичам
 src/ui/              # тема и переиспользуемые компоненты
 src/i18n/            # русские строки
 src/core/content/    # Zod-схемы контента
-content/ja/          # manifest, lessons, grammar, texts
+content/ja-ru/          # manifest, lessons, grammar, texts
 scripts/             # content:new, content:validate, тесты
 docs/                # проектная документация
 ```

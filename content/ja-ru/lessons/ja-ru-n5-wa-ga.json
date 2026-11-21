@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "id": "ja-n5-wa-ga",
+  "id": "ja-ru-n5-wa-ga",
   "type": "grammar",
-  "language": "ja",
+  "courseId": "ja-ru",
   "level": "N5",
   "title": "は и が",
   "subtitle": "Черновой урок",
   "objective": "Проверить структуру урока и валидатор.",
-  "grammarPointIds": ["ja-grammar-wa-ga"],
+  "grammarPointIds": ["ja-ru-grammar-wa-ga"],
   "estimatedMinutes": 5,
   "tags": ["draft", "particles"],
   "blocks": [
@@ -24,7 +24,7 @@
   ],
   "exercises": [
     {
-      "id": "ja-n5-wa-ga-ex-01",
+      "id": "ja-ru-n5-wa-ga-ex-01",
       "type": "multiple_choice",
       "prompt": "Выбери правильный вариант.",
       "question": "私は学生___。",

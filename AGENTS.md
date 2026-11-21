@@ -10,8 +10,8 @@
 
 ## Состояние репозитория
 - App shell перестроен под согласованную IA: 5 табов (Главная, Курс, Словарь, Грамматика, Тексты), «Повторение» и «О приложении» — stack-экраны. Это черновая разметка.
-- Точка входа — `expo-router/entry`; `app/` — маршруты, `src/features/` — экраны, `src/ui/` — компоненты/тема, `src/i18n/` — строки, `src/core/content/` — Zod-схемы, `content/ja/` — данные. `App.tsx`/`index.ts` удалены.
-- Шаг 3 готов: Zod-схемы, `content/ja` с placeholder-контентом, CLI `content:new`, валидатор, тесты. Реальный урок `は`/`が` и SQLite/словарь/SRS — следующие этапы.
+- Точка входа — `expo-router/entry`; `app/` — маршруты, `src/features/` — экраны, `src/ui/` — компоненты/тема, `src/i18n/` — строки, `src/core/content/` — Zod-схемы, `content/ja-ru/` — данные. `App.tsx`/`index.ts` удалены.
+- Шаг 3 + localization foundation готовы: Zod-схемы, курс `ja-ru`, системный UI locale с fallback `ru`, CLI/валидатор/тесты. Реальный урок `は`/`が` и SQLite/словарь/SRS — следующие этапы.
 - Палитра: глубокий розово-красный как accent + персиковый soft. Токены в `src/ui/theme.ts`; не хардкодить цвета в экранах.
 - `AGENTS.md` и `docs/` сохранены. Git-истории пока нет.
 - Зависимости установлены: `npm install`. `npm run typecheck`, `npx expo-doctor` (20/20) и `npx expo export --platform android` проходят.
@@ -26,14 +26,14 @@
 - Повторение: после каждого урока, до 10 слов за сессию (лимит настраиваемый). Глобальная кнопка «Повторить» на Главной. Отдельного урока/таба повторения нет.
 - Общий раздел справочников называем «Библиотека».
 - Авторство уроков — JSON + CLI, без in-app редактора. Zod — для схем контента и `z.infer`.
-- Контент: `content/ja/manifest.json` (уровни → разделы → уроки), отдельные каталоги `lessons/`, `grammar/`, `texts/`; уроки ссылаются на общий пул. `content/ja/index.ts` генерируется, не редактировать вручную.
+- Контент: `content/ja-ru/manifest.json` (уровни → разделы → уроки), отдельные каталоги `lessons/`, `grammar/`, `texts/`; уроки ссылаются на общий пул. `content/ja-ru/index.ts` генерируется, не редактировать вручную.
 - Цвета: `accent #B6465F` (розово-красный), `accentSoft #F7DAD4` (персиковый), `accentInk #8E2F45` для текста на мягком фоне. Менять только через `theme.ts`.
 - Навигация: JavaScript tabs из Expo Router; root Stack для «О приложении»/повторения. Route-файлы тонкие, экраны — в `src/features/`.
 - Первый этап — только Android-телефон через Expo Go. iOS вне scope, пока пользователь явно не попросит; iOS-специфичную работу не добавлять.
 - Первый вертикальный срез — грамматика + тесты, а не кана/SRS. Словарь, SRS и тексты — следующие этапы, но схема данных и стабильные ID проектируются под них уже сейчас.
 - Словарь — офлайн, JMdict-rus из `jmdict-simplified`; на старте common-only. Лицензия CC BY-SA 4.0: атрибуция в приложении, share-alike для производной БД, процедура обновления.
 - Тексты токенизируются на этапе сборки; на телефоне никакого runtime-токенизатора. Токены хранят `surface`, `lemma`, `reading`, `entryIds`.
-- UI и переводы — русский first; строки в `src/i18n/`, не в JSX.
+- UI-язык берётся из языка системы с fallback на `ru`; поддерживается только `ru`. Строки в `src/i18n/`, не в JSX. Язык контента (`sourceLanguage`) — отдельно от UI.
 - Expo SDK — последний стабильный на момент скаффолда; не canary/next.
 
 ## Первый срез: грамматика + тесты
@@ -80,14 +80,14 @@
 - `src/ui/` — тема и переиспользуемые компоненты (`Screen`, `Card`, `AppButton`, `Badge`, `EmptyState`, `SectionTitle`, `FilterChips`, `ContentRow`, `StatTile`).
 - `src/i18n/ru.ts` — все русские строки; не писать литералы в JSX.
 - `src/core/content/schemas.ts` — Zod-схемы и типы контента (создано). `src/core/` для упражнений/прогресса/SRS/БД — позже.
-- `content/ja/` содержит sample-контент: `ja-n5-wa-ga` — placeholder, не финальный урок. Реальный контент — шаг 4.
+- `content/ja-ru/` содержит sample-контент: `ja-ru-n5-wa-ga` — placeholder, не финальный урок. Реальный контент — шаг 4.
 - `src/languages/<code>/` — адаптеры языка; для японского — кана/кандзи/фуригана/токенизация (пока не создано).
-- `content/ja/` — манифест, `lessons/`, `grammar/`, `texts/`; `index.ts` генерируется валидатором.
-- `assets/dictionary/` — generated `dictionary-ja.db`, не редактировать вручную.
+- `content/ja-ru/` — манифест, `lessons/`, `grammar/`, `texts/`; `index.ts` генерируется валидатором.
+- `assets/dictionary/` — generated `dictionary-ja-ru.db`, не редактировать вручную.
 - `scripts/` — `validate-content.ts`, `content-new.ts`, тесты; `scripts/lib/validate-content.ts` — общая логика.
 - Паттерны текущего UI: композиция маленьких компонентов; `variant`-union для кнопок/бейджей; `Record<Variant, Styles>` вместо switch; route → feature screen; стили из токенов темы.
 - Импорты внутри `src/` — через `@/` (tsconfig paths).
-- Две БД: `user.db` (read/write: прогресс, карточки, логи) и `dictionary-ja.db` (read-only asset). Никогда не писать в словарь.
+- Две БД: `user.db` (read/write: прогресс, карточки, логи) и `dictionary-ja-ru.db` (read-only asset). Никогда не писать в словарь.
 - Контент читается из JSON, не импортируется в SQLite. Прогресс ссылается на стабильные ID.
 - Без ORM в MVP: явные SQL-запросы и типизированные репозитории. Drizzle — только если появится доказанная необходимость.
 - Время — epoch ms UTC; локальная граница дня — только для отображения.
@@ -100,8 +100,8 @@
 - `npm run typecheck` — TypeScript strict без emit.
 - `npx expo-doctor` — проверка зависимостей и конфигурации.
 - `npx expo export --platform android` — smoke-test Android-бандла.
-- `npm run content:validate` — проверить course pack, связи и токены; генерирует `content/ja/index.ts`.
-- `npm run content:new -- --type grammar --level n5 --section n5-particles --title "..." --id ja-n5-my-lesson` — создать grammar-урок и вставить в раздел (`--dry-run` для проверки).
+- `npm run content:validate` — проверить course pack, связи и токены; генерирует `content/ja-ru/index.ts`.
+- `npm run content:new -- --course ja-ru --type grammar --level n5 --section n5-particles --title "..." --id ja-ru-n5-my-lesson` — создать grammar-урок и вставить в раздел (`--dry-run` для проверки).
 - `npm run test:content` — тесты схем/валидатора (Node test runner + tsx).
 - `npm run android` — только при наличии Android SDK/эмулятора или adb; сейчас не использовать.
 - `npm run ios`, `npm run web` — не нужны на этом этапе.
@@ -116,7 +116,9 @@ Lint и полноценный test suite появятся отдельными 
 - `npm audit` показывает 3 moderate через `minimatch` → `@expo/fingerprint` → `expo`. `npm audit fix --force` предлагает откатить Expo до 52 — не делать; ждать обновления Expo или проверять безопасный override.
 - `react-dom` зафиксирован на `19.3.0` под React `19.3.0`. Expo Router может подтянуть `19.3.1` и вызвать ERESOLVE; не обновлять `react`/`react-dom` по отдельности.
 - `expo-font` — прямая зависимость, требуется `@expo/vector-icons`; `expo-doctor` проверяет это. Не удалять.
-- `content/ja/index.ts` генерируется `content:validate`; не редактировать вручную.
+- UI locale: `src/i18n/index.ts` берёт системный язык с fallback `ru`; поддерживается только `ru`. Не хардкодить строки в JSX и не связывать UI-язык с `sourceLanguage` курса.
+- Курс — пара языков (`ja-ru`); ID контента включают `courseId`. Второй язык — отдельный пак, не поля-переводы.
+- `content/ja-ru/index.ts` генерируется `content:validate`; не редактировать вручную.
 - `content:new` пока создаёт только `--type grammar`; схемы vocabulary/text есть, CLI для них позже.
 - Токены текста используют UTF-16 индексы (`String.slice`); валидатор проверяет покрытие body. `entryIds` могут быть пустыми до сборки словаря.
 - `scripts` используют Node API; `tsconfig` включает `types: ["node", "react"]`. Не убирать `node` из types.

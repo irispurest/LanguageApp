@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import { strings } from '@/i18n/ru';
+import { strings } from '@/i18n';
 import { Card } from '@/ui/components/Card';
 import { theme } from '@/ui/theme';
 

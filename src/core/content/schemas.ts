@@ -2,14 +2,16 @@ import { z } from 'zod';
 
 /**
  * Строковые ID: латиница, цифры и дефисы. Стабильные, без пробелов.
- * Примеры: "ja-n5-wa-ga", "ja-grammar-wa-ga", "1000040".
+ * Примеры: "ja-ru-n5-wa-ga", "ja-ru-grammar-wa-ga", "1000040".
  */
 export const IdSchema = z
   .string()
   .min(1)
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'ID должен состоять из a-z, 0-9 и дефисов');
 
-export const LanguageSchema = z.string().min(1);
+export const LanguageCodeSchema = z
+  .string()
+  .regex(/^[a-z]{2,3}$/, 'Ожидается код языка из 2–3 строчных букв, например ja или ru');
 
 export const LevelCodeSchema = z.enum(['N5', 'N4', 'N3']);
 export type LevelCode = z.infer<typeof LevelCodeSchema>;
@@ -49,9 +51,10 @@ export type CourseLevel = z.infer<typeof LevelSchema>;
 
 export const ManifestSchema = z.object({
   schemaVersion: z.literal(1),
-  packId: IdSchema,
+  courseId: IdSchema,
   packVersion: z.string().regex(/^\d+\.\d+\.\d+$/, 'Ожидается SemVer вида 1.2.3'),
-  language: LanguageSchema,
+  targetLanguage: LanguageCodeSchema,
+  sourceLanguage: LanguageCodeSchema,
   title: z.string().min(1),
   description: z.string().optional(),
   license: z.string().min(1),
@@ -134,7 +137,7 @@ export type Exercise = z.infer<typeof ExerciseSchema>;
 const LessonBaseSchema = z.object({
   schemaVersion: z.literal(1),
   id: IdSchema,
-  language: LanguageSchema,
+  courseId: IdSchema,
   level: LevelCodeSchema,
   title: z.string().min(1),
   subtitle: z.string().optional(),
@@ -173,7 +176,7 @@ export type TextLesson = z.infer<typeof TextLessonSchema>;
 export const GrammarTopicSchema = z.object({
   schemaVersion: z.literal(1),
   id: IdSchema,
-  language: LanguageSchema,
+  courseId: IdSchema,
   level: LevelCodeSchema,
   title: z.string().min(1),
   summary: z.string().min(1),
@@ -208,7 +211,7 @@ export const ReadingTextSchema = z
   .object({
     schemaVersion: z.literal(1),
     id: IdSchema,
-    language: LanguageSchema,
+    courseId: IdSchema,
     level: LevelCodeSchema,
     title: z.string().min(1),
     body: z.string().min(1),

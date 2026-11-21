@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { strings } from '@/i18n/ru';
+import { strings } from '@/i18n';
 import { EmptyState } from '@/ui/components/EmptyState';
 import { FilterChips, type FilterOption } from '@/ui/components/FilterChips';
 import { Screen } from '@/ui/components/Screen';

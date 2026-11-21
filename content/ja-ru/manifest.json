@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
-  "packId": "ja",
+  "courseId": "ja-ru",
   "packVersion": "0.1.0",
-  "language": "ja",
-  "title": "Японский",
+  "targetLanguage": "ja",
+  "sourceLanguage": "ru",
+  "title": "Японский для русскоязычных",
   "description": "Единый курс с уровнями N5/N4/N3",
   "license": "proprietary",
   "attribution": [],
@@ -16,7 +17,7 @@
         {
           "id": "n5-particles",
           "title": "Частицы",
-          "lessons": ["ja-n5-wa-ga"],
+          "lessons": ["ja-ru-n5-wa-ga"],
           "review": {
             "policy": "after_lesson",
             "maxWords": 10
@@ -37,6 +38,6 @@
       "sections": []
     }
   ],
-  "grammar": ["ja-grammar-wa-ga"],
-  "texts": ["ja-n5-self-intro"]
+  "grammar": ["ja-ru-grammar-wa-ga"],
+  "texts": ["ja-ru-n5-self-intro"]
 }

@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { strings } from '@/i18n/ru';
+import { strings } from '@/i18n';
 import { AppButton } from '@/ui/components/AppButton';
 import { Badge } from '@/ui/components/Badge';
 import { Card } from '@/ui/components/Card';

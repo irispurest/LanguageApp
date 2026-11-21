@@ -7,17 +7,17 @@ import { validateContentProject } from './lib/validate-content';
 
 const baseLesson = {
   schemaVersion: 1,
-  id: 'ja-n5-test',
+  id: 'ja-ru-n5-test',
   type: 'grammar',
-  language: 'ja',
+  courseId: 'ja-ru',
   level: 'N5',
   title: 'Тестовый урок',
   objective: 'Проверка схемы.',
-  grammarPointIds: ['ja-grammar-test'],
+  grammarPointIds: ['ja-ru-grammar-test'],
   blocks: [{ type: 'paragraph', text: 'Текст.' }],
   exercises: [
     {
-      id: 'ja-n5-test-ex-01',
+      id: 'ja-ru-n5-test-ex-01',
       type: 'multiple_choice',
       prompt: 'Выбери вариант.',
       question: '私は学生___。',
@@ -54,7 +54,13 @@ test('multiple_choice требует минимум два варианта', ()
 });
 
 test('текст проверяет совпадение токенов с body', () => {
-  const file = path.join(process.cwd(), 'content', 'ja', 'texts', 'ja-n5-self-intro.json');
+  const file = path.join(
+    process.cwd(),
+    'content',
+    'ja-ru',
+    'texts',
+    'ja-ru-n5-self-intro.json',
+  );
   const text = JSON.parse(fs.readFileSync(file, 'utf8')) as {
     tokens: Array<{ surface: string }>;
   };

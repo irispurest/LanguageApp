@@ -9,12 +9,12 @@
 ```json
 {
   "schemaVersion": 1,
-  "id": "ja-n5-self-intro",
-  "language": "ja",
+  "id": "ja-ru-n5-self-intro",
+  "courseId": "ja-ru",
   "level": "N5",
   "title": "Знакомство",
-  "body": "私は学生です。毎日日本語を勉強します。",
-  "translation": "Я студент. Каждый день изучаю японский.",
+  "body": "私は学生です。",
+  "translation": "Я студент.",
   "tokens": [
     {
       "surface": "私",

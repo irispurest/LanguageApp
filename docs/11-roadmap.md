@@ -70,7 +70,7 @@
 **Цель:** офлайн-словарь, связанный с колодой.
 
 Задачи:
-- Скрипт сборки `dictionary-ja.db` из `jmdict-rus` (common-only).
+- Скрипт сборки `dictionary-ja-ru.db` из `jmdict-rus` (common-only).
 - Метаданные, лицензия, checksum.
 - Поиск: японский/русский, FTS5 + fallback.
 - Экран статьи.

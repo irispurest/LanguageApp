@@ -19,6 +19,7 @@
 - **Шаг 2 — технический каркас:** выполнен.
 - **Шаг 2b — перестройка app shell под согласованную IA:** выполнен.
 - **Шаг 3 — схема контента, CLI и валидатор:** выполнен.
+- **Шаг 3.5 — localization foundation (`ja-ru`, system UI locale):** выполнен.
 - **Шаг 4 — контент урока `は`/`が`:** следующий.
 
 ## Шаг 0. Документация и решения
@@ -104,13 +105,23 @@
 
 - Zod-схемы: course pack, уровень, раздел, урок, упражнения, грамматическая тема, текст.
 - Типы выводятся через `z.infer`; discriminated unions для типов урока/упражнений.
-- `content/ja/manifest.json` с уровнями N5/N4/N3 и разделами.
+- `content/ja-ru/manifest.json` с уровнями N5/N4/N3 и разделами.
 - Каталоги `lessons/`, `grammar/`, `texts/`; lesson ссылается на grammar/text ID.
 - `scripts/validate-content.ts` + `scripts/content-new.ts` (CLI).
-- Generated `content/ja/index.ts` для статических импортов.
+- Generated `content/ja-ru/index.ts` для статических импортов.
 - Тесты схемы/валидатора.
 
 **Критерий:** невалидный урок не проходит проверку; CLI создаёт урок и вставляет его в нужный раздел; валидный контент загружается.
+
+## Шаг 3.5. Localization foundation
+
+**Статус:** выполнен (2026-11-21).
+
+- Курс `ja-ru`, `targetLanguage: ja`, `sourceLanguage: ru`; ID с префиксом `ja-ru-`.
+- `content/ja-ru/`; словарь в планах — `dictionary-ja-ru.db`.
+- UI locale из системного языка с fallback `ru` (`src/i18n/index.ts`); поддерживается только `ru`.
+- `courseId` в схемах урока/грамматики/текста; валидатор проверяет соответствие манифесту.
+- CLI принимает `--course` (по умолчанию `ja-ru`).
 
 ## Шаг 4. Контент урока `は`/`が`
 
@@ -166,7 +177,7 @@
 
 **Цель:** офлайн-японско-русский словарь.
 
-- Скрипт сборки `dictionary-ja.db` из JMdict-rus common-only.
+- Скрипт сборки `dictionary-ja-ru.db` из JMdict-rus common-only.
 - Metadata/checksum/лицензия.
 - FTS5 + fallback.
 - Экран поиска и статьи.

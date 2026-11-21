@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { strings } from '@/i18n/ru';
+import { strings } from '@/i18n';
 import { theme } from '@/ui/theme';
 
 const stackHeaderOptions = {

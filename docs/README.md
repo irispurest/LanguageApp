@@ -4,8 +4,8 @@
 
 ## Статус
 
-- Стадия: app shell и схема контента готовы; sample-контент проходит валидатор.
-- В репозитории: Expo-приложение с Expo Router, Zod-схемы, CLI, `AGENTS.md`, `docs/`.
+- Стадия: app shell, схема контента и localization foundation (`ja-ru`) готовы.
+- В репозитории: Expo-приложение с Expo Router, Zod-схемы, CLI, курс `ja-ru`, `AGENTS.md`, `docs/`.
 - Следующий шаг: реальный контент `は`/`が`, затем экран урока и SQLite-прогресс.
 
 ## Как читать

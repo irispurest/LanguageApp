@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet } from 'react-native';
-import { strings } from '@/i18n/ru';
+import { strings } from '@/i18n';
 import { EmptyState } from '@/ui/components/EmptyState';
 import { Screen } from '@/ui/components/Screen';
 

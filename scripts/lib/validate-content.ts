@@ -40,6 +40,7 @@ export type ValidationResult = {
 
 export type ValidateOptions = {
   writeIndex?: boolean;
+  courseId?: string;
 };
 
 type LoadedContent = {
@@ -249,6 +250,7 @@ function writeContentIndex(
   loaded: LoadedContent,
   issues: ValidationIssue[],
 ): void {
+  const courseId = path.basename(contentDir);
   const lessonEntries = [...loaded.lessons.entries()];
   const grammarEntries = [...loaded.grammar.entries()];
   const textEntries = [...loaded.texts.entries()];
@@ -315,7 +317,7 @@ ${textMap}
     addIssue(
       issues,
       'error',
-      'content/ja/index.ts',
+      `content/${courseId}/index.ts`,
       '',
       `Не удалось записать индекс: ${error instanceof Error ? error.message : String(error)}`,
     );
@@ -328,8 +330,9 @@ export function validateContentProject(
 ): ValidationResult {
   const errors: ValidationIssue[] = [];
   const warnings: ValidationIssue[] = [];
-  const contentDir = path.join(rootDir, 'content', 'ja');
-  const manifestFile = 'content/ja/manifest.json';
+  const courseId = options.courseId ?? 'ja-ru';
+  const contentDir = path.join(rootDir, 'content', courseId);
+  const manifestFile = `content/${courseId}/manifest.json`;
   const rawManifest = readJson(rootDir, manifestFile, errors);
 
   if (!rawManifest) {
@@ -353,6 +356,16 @@ export function validateContentProject(
   }
 
   const manifest = manifestResult.data;
+
+  if (manifest.courseId !== courseId) {
+    errors.push({
+      severity: 'error',
+      file: manifestFile,
+      path: 'courseId',
+      message: `courseId "${manifest.courseId}" не совпадает с папкой "${courseId}"`,
+    });
+  }
+
   const levelIds = manifest.levels.map((level) => level.id);
   const sectionIds = manifest.levels.flatMap((level) =>
     level.sections.map((section) => section.id),
@@ -365,7 +378,7 @@ export function validateContentProject(
 
   const grammar = new Map<string, GrammarTopic>();
   for (const grammarId of manifest.grammar) {
-    const relativePath = `content/ja/${GRAMMAR_DIR}/${grammarId}.json`;
+    const relativePath = `content/${courseId}/${GRAMMAR_DIR}/${grammarId}.json`;
     const raw = readJson(rootDir, relativePath, errors);
     if (!raw) {
       continue;
@@ -385,12 +398,12 @@ export function validateContentProject(
         message: `ID "${result.data.id}" не совпадает с манифестом "${grammarId}"`,
       });
     }
-    if (result.data.language !== manifest.language) {
+    if (result.data.courseId !== manifest.courseId) {
       errors.push({
         severity: 'error',
         file: relativePath,
-        path: 'language',
-        message: `Язык "${result.data.language}" не совпадает с манифестом "${manifest.language}"`,
+        path: 'courseId',
+        message: `courseId "${result.data.courseId}" не совпадает с манифестом "${manifest.courseId}"`,
       });
     }
 
@@ -399,7 +412,7 @@ export function validateContentProject(
 
   const texts = new Map<string, ReadingText>();
   for (const textId of manifest.texts) {
-    const relativePath = `content/ja/${TEXTS_DIR}/${textId}.json`;
+    const relativePath = `content/${courseId}/${TEXTS_DIR}/${textId}.json`;
     const raw = readJson(rootDir, relativePath, errors);
     if (!raw) {
       continue;
@@ -419,12 +432,12 @@ export function validateContentProject(
         message: `ID "${result.data.id}" не совпадает с манифестом "${textId}"`,
       });
     }
-    if (result.data.language !== manifest.language) {
+    if (result.data.courseId !== manifest.courseId) {
       errors.push({
         severity: 'error',
         file: relativePath,
-        path: 'language',
-        message: `Язык "${result.data.language}" не совпадает с манифестом "${manifest.language}"`,
+        path: 'courseId',
+        message: `courseId "${result.data.courseId}" не совпадает с манифестом "${manifest.courseId}"`,
       });
     }
 
@@ -478,7 +491,7 @@ export function validateContentProject(
         }
         referencedLessonIds.push(lessonId);
 
-        const relativePath = `content/ja/${LESSONS_DIR}/${lessonId}.json`;
+        const relativePath = `content/${courseId}/${LESSONS_DIR}/${lessonId}.json`;
         const raw = readJson(rootDir, relativePath, errors);
         if (!raw) {
           continue;
@@ -498,12 +511,12 @@ export function validateContentProject(
             message: `ID "${result.data.id}" не совпадает с манифестом "${lessonId}"`,
           });
         }
-        if (result.data.language !== manifest.language) {
+        if (result.data.courseId !== manifest.courseId) {
           errors.push({
             severity: 'error',
             file: relativePath,
-            path: 'language',
-            message: `Язык "${result.data.language}" не совпадает с манифестом "${manifest.language}"`,
+            path: 'courseId',
+            message: `courseId "${result.data.courseId}" не совпадает с манифестом "${manifest.courseId}"`,
           });
         }
 
@@ -525,7 +538,7 @@ export function validateContentProject(
     if (!knownLessons.has(fileId)) {
       warnings.push({
         severity: 'warning',
-        file: `content/ja/${LESSONS_DIR}/${fileId}.json`,
+        file: `content/${courseId}/${LESSONS_DIR}/${fileId}.json`,
         path: '',
         message: 'Файл урока не привязан к манифесту',
       });
@@ -537,7 +550,7 @@ export function validateContentProject(
     if (!knownGrammar.has(fileId)) {
       warnings.push({
         severity: 'warning',
-        file: `content/ja/${GRAMMAR_DIR}/${fileId}.json`,
+        file: `content/${courseId}/${GRAMMAR_DIR}/${fileId}.json`,
         path: '',
         message: 'Файл грамматики не привязан к манифесту',
       });
@@ -549,7 +562,7 @@ export function validateContentProject(
     if (!knownTexts.has(fileId)) {
       warnings.push({
         severity: 'warning',
-        file: `content/ja/${TEXTS_DIR}/${fileId}.json`,
+        file: `content/${courseId}/${TEXTS_DIR}/${fileId}.json`,
         path: '',
         message: 'Файл текста не привязан к манифесту',
       });

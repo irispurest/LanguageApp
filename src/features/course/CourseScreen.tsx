@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { strings } from '@/i18n/ru';
+import { strings } from '@/i18n';
 import { Card } from '@/ui/components/Card';
 import { ContentRow } from '@/ui/components/ContentRow';
 import { EmptyState } from '@/ui/components/EmptyState';
