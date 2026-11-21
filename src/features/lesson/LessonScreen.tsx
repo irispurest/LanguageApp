@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
   progressFill: {
     height: '100%',
     borderRadius: theme.radius.pill,
-    backgroundColor: theme.colors.accent,
+    backgroundColor: theme.colors.accentStrong,
   },
   content: {
     padding: theme.spacing.lg,

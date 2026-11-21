@@ -44,8 +44,8 @@ const variants: Record<
   },
   ghost: {
     container: { backgroundColor: 'transparent' },
-    label: { color: theme.colors.accent },
-    iconColor: theme.colors.accent,
+    label: { color: theme.colors.accentStrong },
+    iconColor: theme.colors.accentStrong,
   },
 };
 

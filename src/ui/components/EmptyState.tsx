@@ -18,7 +18,7 @@ export function EmptyState({ icon, title, description, actionLabel, onAction }: 
   return (
     <View style={styles.container}>
       <View style={styles.iconCircle}>
-        <Ionicons name={icon} size={30} color={theme.colors.accent} />
+        <Ionicons name={icon} size={30} color={theme.colors.accentStrong} />
       </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>

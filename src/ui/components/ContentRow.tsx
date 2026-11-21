@@ -28,7 +28,7 @@ export function ContentRow({
   const content = (
     <>
       <View style={styles.iconCircle}>
-        <Ionicons name={icon} size={20} color={theme.colors.accent} />
+        <Ionicons name={icon} size={20} color={theme.colors.accentStrong} />
       </View>
       <View style={styles.body}>
         <Text style={styles.eyebrow}>{eyebrow}</Text>

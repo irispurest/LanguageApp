@@ -13,7 +13,7 @@
 - Точка входа — `expo-router/entry`; `app/` — маршруты, `src/features/` — экраны, `src/ui/` — компоненты/тема, `src/i18n/` — строки, `src/core/content/` — Zod-схемы, `content/ja-ru/` — данные. `App.tsx`/`index.ts` удалены.
 - Шаг 5 готов: экран урока (`app/lesson/[lessonId].tsx`), интро/материал/7 упражнений/итог, три типа упражнений, чистая проверка ответов. Прогресс пока локальный, без SQLite.
 - Шаг 3 + localization foundation + контент `は`/`が`: Zod-схемы, курс `ja-ru`, системный UI locale с fallback `ru`, CLI/валидатор/тесты. SQLite/словарь/SRS — следующие этапы.
-- Палитра: глубокий розово-красный как accent + персиковый soft. Токены в `src/ui/theme.ts`; не хардкодить цвета в экранах.
+- Палитра: пастельный розово-красный `accent #D96B80` + персиковый `accentSoft #FBE3DF`; для мелкого текста/активных табов — `accentStrong #A63D56`, на пастельном фоне — тёмный `onAccent #3A2027`. Токены в `src/ui/theme.ts`; не хардкодить цвета в экранах.
 - Git: ветка `main`, initial commits, remote `origin` настроен. `AGENTS.md` и `docs/` в репозитории.
 - Зависимости установлены: `npm install`. `npm run typecheck`, `npm run content:validate`, `npm run test:content`, `npx expo-doctor` (20/20) и `npx expo export --platform android` проходят.
 - Проверенное окружение (Windows): Node.js 24.21.0, npm 11.19.0, git 2.56.0, VS Code, .NET SDK 10.0.401. Expo Go установлен на Android-телефоне.
