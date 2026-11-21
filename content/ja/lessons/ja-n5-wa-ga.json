@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "ja-n5-wa-ga",
+  "type": "grammar",
+  "language": "ja",
+  "level": "N5",
+  "title": "は и が",
+  "subtitle": "Черновой урок",
+  "objective": "Проверить структуру урока и валидатор.",
+  "grammarPointIds": ["ja-grammar-wa-ga"],
+  "estimatedMinutes": 5,
+  "tags": ["draft", "particles"],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Черновой урок. Полный контент появится на следующем шаге."
+    },
+    {
+      "type": "example",
+      "japanese": "私は学生です。",
+      "reading": "わたしはがくせいです。",
+      "translation": "Я студент."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ja-n5-wa-ga-ex-01",
+      "type": "multiple_choice",
+      "prompt": "Выбери правильный вариант.",
+      "question": "私は学生___。",
+      "options": ["です", "ます", "だ"],
+      "correctIndex": 0,
+      "explanation": "Черновое объяснение. Будет уточнено на этапе контента."
+    }
+  ]
+}

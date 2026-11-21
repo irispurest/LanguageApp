@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "ja-n5-self-intro",
+  "language": "ja",
+  "level": "N5",
+  "title": "Знакомство",
+  "body": "私は学生です。",
+  "translation": "Я студент.",
+  "tokens": [
+    {
+      "surface": "私",
+      "lemma": "私",
+      "reading": "わたし",
+      "pos": "pron",
+      "start": 0,
+      "end": 1,
+      "entryIds": []
+    },
+    {
+      "surface": "は",
+      "lemma": "は",
+      "reading": "は",
+      "pos": "prt",
+      "start": 1,
+      "end": 2,
+      "entryIds": []
+    },
+    {
+      "surface": "学生",
+      "lemma": "学生",
+      "reading": "がくせい",
+      "pos": "n",
+      "start": 2,
+      "end": 4,
+      "entryIds": []
+    },
+    {
+      "surface": "です",
+      "lemma": "です",
+      "reading": "です",
+      "pos": "cop",
+      "start": 4,
+      "end": 6,
+      "entryIds": []
+    },
+    {
+      "surface": "。",
+      "lemma": "。",
+      "reading": "。",
+      "pos": "punct",
+      "start": 6,
+      "end": 7,
+      "entryIds": []
+    }
+  ],
+  "source": {
+    "type": "original",
+    "license": "proprietary",
+    "attribution": ""
+  }
+}

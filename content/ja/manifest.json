@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "packId": "ja",
+  "packVersion": "0.1.0",
+  "language": "ja",
+  "title": "Японский",
+  "description": "Единый курс с уровнями N5/N4/N3",
+  "license": "proprietary",
+  "attribution": [],
+  "levels": [
+    {
+      "id": "n5",
+      "code": "N5",
+      "title": "Начальный",
+      "sections": [
+        {
+          "id": "n5-particles",
+          "title": "Частицы",
+          "lessons": ["ja-n5-wa-ga"],
+          "review": {
+            "policy": "after_lesson",
+            "maxWords": 10
+          }
+        }
+      ]
+    },
+    {
+      "id": "n4",
+      "code": "N4",
+      "title": "Средний",
+      "sections": []
+    },
+    {
+      "id": "n3",
+      "code": "N3",
+      "title": "Продвинутый",
+      "sections": []
+    }
+  ],
+  "grammar": ["ja-grammar-wa-ga"],
+  "texts": ["ja-n5-self-intro"]
+}

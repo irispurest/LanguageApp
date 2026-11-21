@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "ja-grammar-wa-ga",
+  "language": "ja",
+  "level": "N5",
+  "title": "は и が",
+  "summary": "Черновой конспект темы: тема и рема, выбор частицы.",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Черновой конспект. Подробное объяснение появится на этапе контента."
+    },
+    {
+      "type": "example",
+      "japanese": "私は学生です。",
+      "reading": "わたしはがくせいです。",
+      "translation": "Я студент."
+    }
+  ]
+}
