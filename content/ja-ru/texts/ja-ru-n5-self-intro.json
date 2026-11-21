@@ -4,8 +4,8 @@
   "courseId": "ja-ru",
   "level": "N5",
   "title": "Знакомство",
-  "body": "私は学生です。",
-  "translation": "Я студент.",
+  "body": "私は学生です。田中さんが先生です。",
+  "translation": "Я студент. Учитель — Танака.",
   "tokens": [
     {
       "surface": "私",
@@ -50,6 +50,60 @@
       "pos": "punct",
       "start": 6,
       "end": 7,
+      "entryIds": []
+    },
+    {
+      "surface": "田中",
+      "lemma": "田中",
+      "reading": "たなか",
+      "pos": "n",
+      "start": 7,
+      "end": 9,
+      "entryIds": []
+    },
+    {
+      "surface": "さん",
+      "lemma": "さん",
+      "reading": "さん",
+      "pos": "suf",
+      "start": 9,
+      "end": 11,
+      "entryIds": []
+    },
+    {
+      "surface": "が",
+      "lemma": "が",
+      "reading": "が",
+      "pos": "prt",
+      "start": 11,
+      "end": 12,
+      "entryIds": []
+    },
+    {
+      "surface": "先生",
+      "lemma": "先生",
+      "reading": "せんせい",
+      "pos": "n",
+      "start": 12,
+      "end": 14,
+      "entryIds": []
+    },
+    {
+      "surface": "です",
+      "lemma": "です",
+      "reading": "です",
+      "pos": "cop",
+      "start": 14,
+      "end": 16,
+      "entryIds": []
+    },
+    {
+      "surface": "。",
+      "lemma": "。",
+      "reading": "。",
+      "pos": "punct",
+      "start": 16,
+      "end": 17,
       "entryIds": []
     }
   ],

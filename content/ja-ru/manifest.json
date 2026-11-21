@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "courseId": "ja-ru",
-  "packVersion": "0.1.0",
+  "packVersion": "0.2.0",
   "targetLanguage": "ja",
   "sourceLanguage": "ru",
   "title": "Японский для русскоязычных",

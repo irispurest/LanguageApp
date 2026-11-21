@@ -5,32 +5,88 @@
   "courseId": "ja-ru",
   "level": "N5",
   "title": "は и が",
-  "subtitle": "Черновой урок",
-  "objective": "Проверить структуру урока и валидатор.",
+  "subtitle": "Тема, рема и фокус",
+  "objective": "Научиться выбирать は или が в простых предложениях N5.",
   "grammarPointIds": ["ja-ru-grammar-wa-ga"],
-  "estimatedMinutes": 5,
-  "tags": ["draft", "particles"],
+  "estimatedMinutes": 7,
+  "tags": ["particles", "wa", "ga", "n5"],
   "blocks": [
     {
       "type": "paragraph",
-      "text": "Черновой урок. Полный контент появится на следующем шаге."
+      "text": "Потренируем базовый выбор: は — тема предложения, が — подлежащее или новая информация в фокусе."
     },
     {
       "type": "example",
       "japanese": "私は学生です。",
       "reading": "わたしはがくせいです。",
       "translation": "Я студент."
+    },
+    {
+      "type": "note",
+      "text": "Если сомневаешься, сначала определи, о чём предложение, и что является новой информацией."
     }
   ],
   "exercises": [
     {
       "id": "ja-ru-n5-wa-ga-ex-01",
       "type": "multiple_choice",
-      "prompt": "Выбери правильный вариант.",
+      "prompt": "Выбери частицу.",
       "question": "私は学生___。",
-      "options": ["です", "ます", "だ"],
+      "options": ["は", "が", "を"],
       "correctIndex": 0,
-      "explanation": "Черновое объяснение. Будет уточнено на этапе контента."
+      "explanation": "Я — тема предложения, поэтому используется は."
+    },
+    {
+      "id": "ja-ru-n5-wa-ga-ex-02",
+      "type": "multiple_choice",
+      "prompt": "Выбери частицу.",
+      "question": "誰___先生ですか。",
+      "options": ["は", "が", "に"],
+      "correctIndex": 1,
+      "explanation": "С вопросительным словом 誰 подлежащее оформляется через が."
+    },
+    {
+      "id": "ja-ru-n5-wa-ga-ex-03",
+      "type": "multiple_choice",
+      "prompt": "Ответь на вопрос «誰が先生ですか».",
+      "question": "田中さん___先生です。",
+      "options": ["は", "が", "で"],
+      "correctIndex": 1,
+      "explanation": "Танака — новая информация и ответ на вопрос «кто?», поэтому が."
+    },
+    {
+      "id": "ja-ru-n5-wa-ga-ex-04",
+      "type": "cloze",
+      "prompt": "Вставь частицу.",
+      "sentence": "私はコーヒー{{blank}}好きです。",
+      "bank": ["が", "は", "を"],
+      "correctAnswers": ["が"],
+      "explanation": "В конструкции 〜が好き объект, который нравится, оформляется через が."
+    },
+    {
+      "id": "ja-ru-n5-wa-ga-ex-05",
+      "type": "cloze",
+      "prompt": "Вставь частицу.",
+      "sentence": "これ{{blank}}本です。",
+      "bank": ["は", "が", "を"],
+      "correctAnswers": ["は"],
+      "explanation": "«Это» — тема предложения, поэтому は."
+    },
+    {
+      "id": "ja-ru-n5-wa-ga-ex-06",
+      "type": "ordering",
+      "prompt": "Собери предложение.",
+      "tokens": ["私", "は", "学生", "です", "。"],
+      "correctOrder": [0, 1, 2, 3, 4],
+      "explanation": "Тема は + существительное + です."
+    },
+    {
+      "id": "ja-ru-n5-wa-ga-ex-07",
+      "type": "ordering",
+      "prompt": "Собери вопрос.",
+      "tokens": ["誰", "が", "先生", "です", "か"],
+      "correctOrder": [0, 1, 2, 3, 4],
+      "explanation": "Вопрос к подлежащему: 誰 + が + … + か."
     }
   ]
 }

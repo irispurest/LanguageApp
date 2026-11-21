@@ -11,10 +11,10 @@
 ## Состояние репозитория
 - App shell перестроен под согласованную IA: 5 табов (Главная, Курс, Словарь, Грамматика, Тексты), «Повторение» и «О приложении» — stack-экраны. Это черновая разметка.
 - Точка входа — `expo-router/entry`; `app/` — маршруты, `src/features/` — экраны, `src/ui/` — компоненты/тема, `src/i18n/` — строки, `src/core/content/` — Zod-схемы, `content/ja-ru/` — данные. `App.tsx`/`index.ts` удалены.
-- Шаг 3 + localization foundation готовы: Zod-схемы, курс `ja-ru`, системный UI locale с fallback `ru`, CLI/валидатор/тесты. Реальный урок `は`/`が` и SQLite/словарь/SRS — следующие этапы.
+- Шаг 3 + localization foundation + контент `は`/`が` готовы: Zod-схемы, курс `ja-ru`, системный UI locale с fallback `ru`, CLI/валидатор/тесты, урок с 7 упражнениями. Экран урока и SQLite/словарь/SRS — следующие этапы.
 - Палитра: глубокий розово-красный как accent + персиковый soft. Токены в `src/ui/theme.ts`; не хардкодить цвета в экранах.
-- `AGENTS.md` и `docs/` сохранены. Git-истории пока нет.
-- Зависимости установлены: `npm install`. `npm run typecheck`, `npx expo-doctor` (20/20) и `npx expo export --platform android` проходят.
+- Git: ветка `main`, initial commits, remote `origin` настроен. `AGENTS.md` и `docs/` в репозитории.
+- Зависимости установлены: `npm install`. `npm run typecheck`, `npm run content:validate`, `npm run test:content`, `npx expo-doctor` (20/20) и `npx expo export --platform android` проходят.
 - Проверенное окружение (Windows): Node.js 24.21.0, npm 11.19.0, git 2.56.0, VS Code, .NET SDK 10.0.401. Expo Go установлен на Android-телефоне.
 - Java, Android SDK, Android Studio и EAS CLI не установлены. Для работы через Expo Go они не нужны; понадобятся только для development build.
 
@@ -116,6 +116,7 @@ Lint и полноценный test suite появятся отдельными 
 - `npm audit` показывает 3 moderate через `minimatch` → `@expo/fingerprint` → `expo`. `npm audit fix --force` предлагает откатить Expo до 52 — не делать; ждать обновления Expo или проверять безопасный override.
 - `react-dom` зафиксирован на `19.3.0` под React `19.3.0`. Expo Router может подтянуть `19.3.1` и вызвать ERESOLVE; не обновлять `react`/`react-dom` по отдельности.
 - `expo-font` — прямая зависимость, требуется `@expo/vector-icons`; `expo-doctor` проверяет это. Не удалять.
+- `expo-localization` используется в `src/i18n/index.ts`; системный язык с fallback `ru`. Английский UI пока не добавлен.
 - UI locale: `src/i18n/index.ts` берёт системный язык с fallback `ru`; поддерживается только `ru`. Не хардкодить строки в JSX и не связывать UI-язык с `sourceLanguage` курса.
 - Курс — пара языков (`ja-ru`); ID контента включают `courseId`. Второй язык — отдельный пак, не поля-переводы.
 - `content/ja-ru/index.ts` генерируется `content:validate`; не редактировать вручную.
