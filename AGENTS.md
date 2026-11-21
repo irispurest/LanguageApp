@@ -11,7 +11,8 @@
 ## Состояние репозитория
 - App shell перестроен под согласованную IA: 5 табов (Главная, Курс, Словарь, Грамматика, Тексты), «Повторение» и «О приложении» — stack-экраны. Это черновая разметка.
 - Точка входа — `expo-router/entry`; `app/` — маршруты, `src/features/` — экраны, `src/ui/` — компоненты/тема, `src/i18n/` — строки, `src/core/content/` — Zod-схемы, `content/ja-ru/` — данные. `App.tsx`/`index.ts` удалены.
-- Шаг 3 + localization foundation + контент `は`/`が` готовы: Zod-схемы, курс `ja-ru`, системный UI locale с fallback `ru`, CLI/валидатор/тесты, урок с 7 упражнениями. Экран урока и SQLite/словарь/SRS — следующие этапы.
+- Шаг 5 готов: экран урока (`app/lesson/[lessonId].tsx`), интро/материал/7 упражнений/итог, три типа упражнений, чистая проверка ответов. Прогресс пока локальный, без SQLite.
+- Шаг 3 + localization foundation + контент `は`/`が`: Zod-схемы, курс `ja-ru`, системный UI locale с fallback `ru`, CLI/валидатор/тесты. SQLite/словарь/SRS — следующие этапы.
 - Палитра: глубокий розово-красный как accent + персиковый soft. Токены в `src/ui/theme.ts`; не хардкодить цвета в экранах.
 - Git: ветка `main`, initial commits, remote `origin` настроен. `AGENTS.md` и `docs/` в репозитории.
 - Зависимости установлены: `npm install`. `npm run typecheck`, `npm run content:validate`, `npm run test:content`, `npx expo-doctor` (20/20) и `npx expo export --platform android` проходят.
@@ -75,8 +76,9 @@
 - название/визуальный стиль приложения.
 
 ## Границы и паттерны
-- `app/` — только маршруты Expo Router: `app/(tabs)/*`, `app/about.tsx`, `app/+not-found.tsx`. Не держать бизнес-логику в route-файлах.
-- `src/features/` — экраны по фичам: home, course, dictionary, grammar, texts, review, about, not-found.
+- `app/` — только маршруты Expo Router: `app/(tabs)/*`, `app/lesson/[lessonId].tsx`, `app/about.tsx`, `app/review.tsx`, `app/+not-found.tsx`. Не держать бизнес-логику в route-файлах.
+- `src/features/` — экраны по фичам: home, course, dictionary, grammar, texts, review, lesson, about, not-found.
+- `src/core/exercises/check.ts` — чистая проверка ответов (`ExerciseAnswer`, `checkExercise`, `isAnswerComplete`) и тесты в `scripts/exercises.test.ts`.
 - `src/ui/` — тема и переиспользуемые компоненты (`Screen`, `Card`, `AppButton`, `Badge`, `EmptyState`, `SectionTitle`, `FilterChips`, `ContentRow`, `StatTile`).
 - `src/i18n/ru.ts` — все русские строки; не писать литералы в JSX.
 - `src/core/content/schemas.ts` — Zod-схемы и типы контента (создано). `src/core/` для упражнений/прогресса/SRS/БД — позже.
@@ -102,7 +104,7 @@
 - `npx expo export --platform android` — smoke-test Android-бандла.
 - `npm run content:validate` — проверить course pack, связи и токены; генерирует `content/ja-ru/index.ts`.
 - `npm run content:new -- --course ja-ru --type grammar --level n5 --section n5-particles --title "..." --id ja-ru-n5-my-lesson` — создать grammar-урок и вставить в раздел (`--dry-run` для проверки).
-- `npm run test:content` — тесты схем/валидатора (Node test runner + tsx).
+- `npm run test:content` — тесты схем/валидатора и проверки ответов (Node test runner + tsx, 7 тестов).
 - `npm run android` — только при наличии Android SDK/эмулятора или adb; сейчас не использовать.
 - `npm run ios`, `npm run web` — не нужны на этом этапе.
 

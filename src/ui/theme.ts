@@ -14,7 +14,9 @@ export const theme = {
     warning: '#96561A',
     warningSoft: '#F7E5CC',
     danger: '#A33A3A',
+    dangerSoft: '#F8E2E2',
     success: '#2E6B4F',
+    successSoft: '#E5F1E9',
   },
   spacing: {
     xs: 4,

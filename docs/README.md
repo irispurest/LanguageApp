@@ -4,9 +4,9 @@
 
 ## Статус
 
-- Стадия: app shell, схема контента, localization foundation и контент `は`/`が` готовы.
-- В репозитории: Expo-приложение с Expo Router, Zod-схемы, CLI, курс `ja-ru`, `AGENTS.md`, `docs/`.
-- Следующий шаг: экран урока и упражнения, затем SQLite-прогресс.
+- Стадия: app shell, схема контента, localization foundation, контент `は`/`が` и UI урока готовы.
+- В репозитории: Expo-приложение с Expo Router, Zod-схемы, CLI, курс `ja-ru`, lesson runner, `AGENTS.md`, `docs/`.
+- Следующий шаг: SQLite-прогресс, затем словарь и SRS.
 
 ## Как читать
 

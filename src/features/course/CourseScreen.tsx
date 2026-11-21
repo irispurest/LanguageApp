@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { strings } from '@/i18n';
@@ -18,6 +19,7 @@ const levelOptions: ReadonlyArray<FilterOption<Level>> = [
 ];
 
 export function CourseScreen() {
+  const router = useRouter();
   const [level, setLevel] = useState<Level>('n5');
 
   return (
@@ -50,7 +52,14 @@ export function CourseScreen() {
               eyebrow={strings.course.grammarType}
               title={strings.course.grammarTitle}
               description={strings.course.grammarDescription}
-              badge={strings.common.inDevelopment}
+              badge={strings.course.statusReady}
+              badgeTone="accent"
+              onPress={() => {
+                router.push({
+                  pathname: '/lesson/[lessonId]',
+                  params: { lessonId: 'ja-ru-n5-wa-ga' },
+                });
+              }}
             />
             <ContentRow
               icon="text-outline"

@@ -23,6 +23,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="lesson/[lessonId]" />
         <Stack.Screen
           name="about"
           options={{ ...stackHeaderOptions, title: strings.about.title }}

@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { ComponentProps } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Badge, type BadgeTone } from '@/ui/components/Badge';
 import { theme } from '@/ui/theme';
 
@@ -13,6 +13,7 @@ type Props = {
   description: string;
   badge?: string;
   badgeTone?: BadgeTone;
+  onPress?: () => void;
 };
 
 export function ContentRow({
@@ -22,9 +23,10 @@ export function ContentRow({
   description,
   badge,
   badgeTone = 'warning',
+  onPress,
 }: Props) {
-  return (
-    <View style={styles.row}>
+  const content = (
+    <>
       <View style={styles.iconCircle}>
         <Ionicons name={icon} size={20} color={theme.colors.accent} />
       </View>
@@ -34,7 +36,25 @@ export function ContentRow({
         <Text style={styles.description}>{description}</Text>
         {badge ? <Badge label={badge} tone={badgeTone} /> : null}
       </View>
-    </View>
+      {onPress ? (
+        <Ionicons name="chevron-forward" size={18} color={theme.colors.textMuted} />
+      ) : null}
+    </>
+  );
+
+  if (!onPress) {
+    return <View style={styles.row}>{content}</View>;
+  }
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      onPress={onPress}
+      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+    >
+      {content}
+    </Pressable>
   );
 }
 
@@ -71,5 +91,8 @@ const styles = StyleSheet.create({
   description: {
     ...theme.typography.body,
     color: theme.colors.textMuted,
+  },
+  pressed: {
+    opacity: 0.8,
   },
 });

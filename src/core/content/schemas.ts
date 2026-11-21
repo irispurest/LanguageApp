@@ -133,6 +133,9 @@ export const ExerciseSchema = z.discriminatedUnion('type', [
   OrderingExerciseSchema,
 ]);
 export type Exercise = z.infer<typeof ExerciseSchema>;
+export type MultipleChoiceExercise = z.infer<typeof MultipleChoiceExerciseSchema>;
+export type ClozeExercise = z.infer<typeof ClozeExerciseSchema>;
+export type OrderingExercise = z.infer<typeof OrderingExerciseSchema>;
 
 const LessonBaseSchema = z.object({
   schemaVersion: z.literal(1),

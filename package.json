@@ -32,7 +32,7 @@
     "typecheck": "tsc --noEmit",
     "content:new": "tsx scripts/content-new.ts",
     "content:validate": "tsx scripts/validate-content.ts",
-    "test:content": "node --import tsx --test scripts/content.test.ts"
+    "test:content": "node --import tsx --test scripts/content.test.ts scripts/exercises.test.ts"
   },
   "private": true
 }
