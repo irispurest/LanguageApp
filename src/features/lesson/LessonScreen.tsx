@@ -15,7 +15,8 @@ import { strings } from '@/i18n';
 import { AppButton } from '@/ui/components/AppButton';
 import { Card } from '@/ui/components/Card';
 import { EmptyState } from '@/ui/components/EmptyState';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 import { lessons } from '../../../content/ja-ru';
 
 type Step = 'intro' | 'content' | 'exercise' | 'summary';
@@ -60,6 +61,8 @@ export function LessonScreen() {
 }
 
 function LessonNotFound({ onBack }: { onBack: () => void }) {
+  const { styles } = useThemeStyles(createStyles);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <View style={styles.notFound}>
@@ -76,6 +79,7 @@ function LessonNotFound({ onBack }: { onBack: () => void }) {
 }
 
 function LessonContent({ lesson, onExit }: { lesson: Lesson; onExit: () => void }) {
+  const { theme, styles } = useThemeStyles(createStyles);
   const [step, setStep] = useState<Step>('intro');
   const [exerciseIndex, setExerciseIndex] = useState(0);
   const [answer, setAnswer] = useState<ExerciseAnswer | null>(null);
@@ -190,6 +194,8 @@ function LessonContent({ lesson, onExit }: { lesson: Lesson; onExit: () => void 
 }
 
 function IntroStep({ lesson, onStart }: { lesson: Lesson; onStart: () => void }) {
+  const { styles } = useThemeStyles(createStyles);
+
   return (
     <View style={styles.stack}>
       <View style={styles.titleBlock}>
@@ -216,6 +222,8 @@ function IntroStep({ lesson, onStart }: { lesson: Lesson; onStart: () => void })
 }
 
 function ContentStep({ lesson, onNext }: { lesson: Lesson; onNext: () => void }) {
+  const { styles } = useThemeStyles(createStyles);
+
   return (
     <View style={styles.stack}>
       <Text style={styles.sectionTitle}>{strings.lesson.contentTitle}</Text>
@@ -253,6 +261,7 @@ function ExerciseStep({
   onCheck,
   onNext,
 }: ExerciseStepProps) {
+  const { styles } = useThemeStyles(createStyles);
   const canCheck = isAnswerComplete(exercise, answer);
 
   return (
@@ -319,6 +328,8 @@ type SummaryStepProps = {
 };
 
 function SummaryStep({ lesson, results, score, onRestart, onExit }: SummaryStepProps) {
+  const { theme, styles } = useThemeStyles(createStyles);
+
   return (
     <View style={styles.stack}>
       <Text style={styles.summaryTitle}>{strings.lesson.summaryTitle}</Text>
@@ -360,7 +371,8 @@ function SummaryStep({ lesson, results, score, onRestart, onExit }: SummaryStepP
   );
 }
 
-const styles = StyleSheet.create({
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: theme.colors.background,
@@ -510,4 +522,5 @@ const styles = StyleSheet.create({
   pressed: {
     opacity: 0.75,
   },
-});
+  });
+}

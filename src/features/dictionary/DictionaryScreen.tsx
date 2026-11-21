@@ -6,7 +6,8 @@ import { EmptyState } from '@/ui/components/EmptyState';
 import { FilterChips, type FilterOption } from '@/ui/components/FilterChips';
 import { Screen } from '@/ui/components/Screen';
 import { SectionTitle } from '@/ui/components/SectionTitle';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 type Sort = 'added' | 'progress' | 'alpha';
 
@@ -17,6 +18,7 @@ const sortOptions: ReadonlyArray<FilterOption<Sort>> = [
 ];
 
 export function DictionaryScreen() {
+  const { theme, styles } = useThemeStyles(createStyles);
   const [sort, setSort] = useState<Sort>('added');
 
   return (
@@ -43,21 +45,23 @@ export function DictionaryScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  search: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.spacing.sm,
-    minHeight: 48,
-    paddingHorizontal: theme.spacing.md,
-    borderRadius: theme.radius.md,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border,
-    backgroundColor: theme.colors.surface,
-  },
-  searchText: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-    flex: 1,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    search: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: theme.spacing.sm,
+      minHeight: 48,
+      paddingHorizontal: theme.spacing.md,
+      borderRadius: theme.radius.md,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.surface,
+    },
+    searchText: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+      flex: 1,
+    },
+  });
+}

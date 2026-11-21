@@ -2,9 +2,11 @@ import Constants from 'expo-constants';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { strings } from '@/i18n';
 import { Card } from '@/ui/components/Card';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 export function AboutScreen() {
+  const { styles } = useThemeStyles(createStyles);
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
   return (
@@ -38,34 +40,36 @@ export function AboutScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  content: {
-    padding: theme.spacing.lg,
-    paddingBottom: theme.spacing.xxl,
-    gap: theme.spacing.md,
-  },
-  tagline: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-  },
-  label: {
-    ...theme.typography.caption,
-    fontWeight: '700',
-    color: theme.colors.textMuted,
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
-  },
-  value: {
-    ...theme.typography.title,
-    fontWeight: '600',
-    color: theme.colors.text,
-  },
-  description: {
-    ...theme.typography.body,
-    color: theme.colors.text,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    screen: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    content: {
+      padding: theme.spacing.lg,
+      paddingBottom: theme.spacing.xxl,
+      gap: theme.spacing.md,
+    },
+    tagline: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+    },
+    label: {
+      ...theme.typography.caption,
+      fontWeight: '700',
+      color: theme.colors.textMuted,
+      letterSpacing: 0.6,
+      textTransform: 'uppercase',
+    },
+    value: {
+      ...theme.typography.title,
+      fontWeight: '600',
+      color: theme.colors.text,
+    },
+    description: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+    },
+  });
+}

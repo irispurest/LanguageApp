@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 type Props = {
   title: string;
@@ -7,6 +8,8 @@ type Props = {
 };
 
 export function SectionTitle({ title, subtitle }: Props) {
+  const { styles } = useThemeStyles(createStyles);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
@@ -15,18 +18,20 @@ export function SectionTitle({ title, subtitle }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    gap: theme.spacing.xs,
-    marginTop: theme.spacing.xs,
-  },
-  title: {
-    ...theme.typography.title,
-    fontWeight: '700',
-    color: theme.colors.text,
-  },
-  subtitle: {
-    ...theme.typography.caption,
-    color: theme.colors.textMuted,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    container: {
+      gap: theme.spacing.xs,
+      marginTop: theme.spacing.xs,
+    },
+    title: {
+      ...theme.typography.title,
+      fontWeight: '700',
+      color: theme.colors.text,
+    },
+    subtitle: {
+      ...theme.typography.caption,
+      color: theme.colors.textMuted,
+    },
+  });
+}

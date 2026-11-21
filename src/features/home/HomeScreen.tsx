@@ -8,10 +8,12 @@ import { Card } from '@/ui/components/Card';
 import { Screen } from '@/ui/components/Screen';
 import { SectionTitle } from '@/ui/components/SectionTitle';
 import { StatTile } from '@/ui/components/StatTile';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 export function HomeScreen() {
   const router = useRouter();
+  const { theme, styles } = useThemeStyles(createStyles);
 
   return (
     <Screen
@@ -63,55 +65,57 @@ export function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  iconButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: theme.colors.surface,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border,
-  },
-  iconButtonPressed: {
-    opacity: 0.75,
-  },
-  eyebrow: {
-    ...theme.typography.caption,
-    fontWeight: '700',
-    color: theme.colors.accentInk,
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
-  },
-  heroTitle: {
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: '700',
-    color: theme.colors.text,
-  },
-  heroDescription: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-  },
-  rowBetween: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: theme.spacing.sm,
-  },
-  cardTitle: {
-    ...theme.typography.bodyLarge,
-    fontWeight: '600',
-    color: theme.colors.text,
-    flex: 1,
-  },
-  cardDescription: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    gap: theme.spacing.sm,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    iconButton: {
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: theme.colors.surface,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: theme.colors.border,
+    },
+    iconButtonPressed: {
+      opacity: 0.75,
+    },
+    eyebrow: {
+      ...theme.typography.caption,
+      fontWeight: '700',
+      color: theme.colors.accentInk,
+      letterSpacing: 0.8,
+      textTransform: 'uppercase',
+    },
+    heroTitle: {
+      fontSize: 24,
+      lineHeight: 30,
+      fontWeight: '700',
+      color: theme.colors.text,
+    },
+    heroDescription: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+    },
+    rowBetween: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: theme.spacing.sm,
+    },
+    cardTitle: {
+      ...theme.typography.bodyLarge,
+      fontWeight: '600',
+      color: theme.colors.text,
+      flex: 1,
+    },
+    cardDescription: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+    },
+    statsRow: {
+      flexDirection: 'row',
+      gap: theme.spacing.sm,
+    },
+  });
+}

@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 export type FilterOption<T extends string> = {
   value: T;
@@ -14,6 +15,8 @@ type Props<T extends string> = {
 };
 
 export function FilterChips<T extends string>({ options, value, onChange, label }: Props<T>) {
+  const { styles } = useThemeStyles(createStyles);
+
   return (
     <View style={styles.wrapper}>
       {label ? <Text style={styles.label}>{label}</Text> : null}
@@ -44,44 +47,46 @@ export function FilterChips<T extends string>({ options, value, onChange, label 
   );
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    gap: theme.spacing.sm,
-  },
-  label: {
-    ...theme.typography.caption,
-    fontWeight: '600',
-    color: theme.colors.textMuted,
-  },
-  row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: theme.spacing.sm,
-  },
-  chip: {
-    minHeight: 36,
-    borderRadius: theme.radius.pill,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border,
-    backgroundColor: theme.colors.surface,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  chipActive: {
-    backgroundColor: theme.colors.accent,
-    borderColor: theme.colors.accent,
-  },
-  chipLabel: {
-    ...theme.typography.caption,
-    fontWeight: '600',
-    color: theme.colors.textMuted,
-  },
-  chipLabelActive: {
-    color: theme.colors.onAccent,
-  },
-  pressed: {
-    opacity: 0.8,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    wrapper: {
+      gap: theme.spacing.sm,
+    },
+    label: {
+      ...theme.typography.caption,
+      fontWeight: '600',
+      color: theme.colors.textMuted,
+    },
+    row: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: theme.spacing.sm,
+    },
+    chip: {
+      minHeight: 36,
+      borderRadius: theme.radius.pill,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.surface,
+      paddingHorizontal: theme.spacing.md,
+      paddingVertical: theme.spacing.sm,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    chipActive: {
+      backgroundColor: theme.colors.accent,
+      borderColor: theme.colors.accent,
+    },
+    chipLabel: {
+      ...theme.typography.caption,
+      fontWeight: '600',
+      color: theme.colors.textMuted,
+    },
+    chipLabelActive: {
+      color: theme.colors.onAccent,
+    },
+    pressed: {
+      opacity: 0.8,
+    },
+  });
+}

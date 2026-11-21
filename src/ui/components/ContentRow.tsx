@@ -2,7 +2,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Badge, type BadgeTone } from '@/ui/components/Badge';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 type IconName = ComponentProps<typeof Ionicons>['name'];
 
@@ -25,6 +26,7 @@ export function ContentRow({
   badgeTone = 'warning',
   onPress,
 }: Props) {
+  const { theme, styles } = useThemeStyles(createStyles);
   const content = (
     <>
       <View style={styles.iconCircle}>
@@ -58,41 +60,43 @@ export function ContentRow({
   );
 }
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: theme.spacing.md,
-  },
-  iconCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: theme.colors.surfaceMuted,
-  },
-  body: {
-    flex: 1,
-    gap: theme.spacing.xs,
-  },
-  eyebrow: {
-    ...theme.typography.caption,
-    fontWeight: '700',
-    color: theme.colors.textMuted,
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
-  },
-  title: {
-    ...theme.typography.bodyLarge,
-    fontWeight: '600',
-    color: theme.colors.text,
-  },
-  description: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-  },
-  pressed: {
-    opacity: 0.8,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    row: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: theme.spacing.md,
+    },
+    iconCircle: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: theme.colors.surfaceMuted,
+    },
+    body: {
+      flex: 1,
+      gap: theme.spacing.xs,
+    },
+    eyebrow: {
+      ...theme.typography.caption,
+      fontWeight: '700',
+      color: theme.colors.textMuted,
+      letterSpacing: 0.5,
+      textTransform: 'uppercase',
+    },
+    title: {
+      ...theme.typography.bodyLarge,
+      fontWeight: '600',
+      color: theme.colors.text,
+    },
+    description: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+    },
+    pressed: {
+      opacity: 0.8,
+    },
+  });
+}

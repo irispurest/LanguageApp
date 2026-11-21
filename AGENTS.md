@@ -13,7 +13,9 @@
 - Точка входа — `expo-router/entry`; `app/` — маршруты, `src/features/` — экраны, `src/ui/` — компоненты/тема, `src/i18n/` — строки, `src/core/content/` — Zod-схемы, `content/ja-ru/` — данные. `App.tsx`/`index.ts` удалены.
 - Шаг 5 готов: экран урока (`app/lesson/[lessonId].tsx`), интро/материал/7 упражнений/итог, три типа упражнений, чистая проверка ответов. Прогресс пока локальный, без SQLite.
 - Шаг 3 + localization foundation + контент `は`/`が`: Zod-схемы, курс `ja-ru`, системный UI locale с fallback `ru`, CLI/валидатор/тесты. SQLite/словарь/SRS — следующие этапы.
-- Палитра: пастельный розово-красный `accent #D96B80` + персиковый `accentSoft #FBE3DF`; для мелкого текста/активных табов — `accentStrong #A63D56`, на пастельном фоне — тёмный `onAccent #3A2027`. Токены в `src/ui/theme.ts`; не хардкодить цвета в экранах.
+- Тема: светлая/тёмная по системной схеме (`userInterfaceStyle: automatic`, `ThemeProvider`, `useColorScheme`). Токены `lightTheme`/`darkTheme` в `src/ui/theme.ts`; компоненты используют `useThemeStyles`/`useTheme`, не статический `theme`.
+- Палитра: светлая — `accent #B33A56` (белый текст), `accentSoft #FBE3DF`, `accentStrong #A63D56`; тёмная — `accent #FFA3B4` (тёмный текст), `accentSoft #3B232A`, `accentStrong #FFB3C1`. В светлой теме кнопки темнее ради белого текста, в тёмной — светлее ради тёмного.
+- Таб-бар учитывает `useSafeAreaInsets`: высота `66 + insets.bottom`, `paddingBottom: max(insets.bottom, 8)`.
 - Git: ветка `main`, initial commits, remote `origin` настроен. `AGENTS.md` и `docs/` в репозитории.
 - Зависимости установлены: `npm install`. `npm run typecheck`, `npm run content:validate`, `npm run test:content`, `npx expo-doctor` (20/20) и `npx expo export --platform android` проходят.
 - Проверенное окружение (Windows): Node.js 24.21.0, npm 11.19.0, git 2.56.0, VS Code, .NET SDK 10.0.401. Expo Go установлен на Android-телефоне.
@@ -80,6 +82,7 @@
 - `src/features/` — экраны по фичам: home, course, dictionary, grammar, texts, review, lesson, about, not-found.
 - `src/core/exercises/check.ts` — чистая проверка ответов (`ExerciseAnswer`, `checkExercise`, `isAnswerComplete`) и тесты в `scripts/exercises.test.ts`.
 - `src/ui/` — тема и переиспользуемые компоненты (`Screen`, `Card`, `AppButton`, `Badge`, `EmptyState`, `SectionTitle`, `FilterChips`, `ContentRow`, `StatTile`).
+- `src/ui/ThemeProvider.tsx` — `ThemeProvider`, `useTheme`, `useThemeStyles`; `src/ui/theme.ts` — `lightTheme`/`darkTheme`. Не импортировать статический `theme` в компоненты.
 - `src/i18n/ru.ts` — все русские строки; не писать литералы в JSX.
 - `src/core/content/schemas.ts` — Zod-схемы и типы контента (создано). `src/core/` для упражнений/прогресса/SRS/БД — позже.
 - `content/ja-ru/` содержит sample-контент: `ja-ru-n5-wa-ga` — placeholder, не финальный урок. Реальный контент — шаг 4.
@@ -119,6 +122,8 @@ Lint и полноценный test suite появятся отдельными 
 - `react-dom` зафиксирован на `19.3.0` под React `19.3.0`. Expo Router может подтянуть `19.3.1` и вызвать ERESOLVE; не обновлять `react`/`react-dom` по отдельности.
 - `expo-font` — прямая зависимость, требуется `@expo/vector-icons`; `expo-doctor` проверяет это. Не удалять.
 - `expo-localization` используется в `src/i18n/index.ts`; системный язык с fallback `ru`. Английский UI пока не добавлен.
+- `expo-system-ui` + `userInterfaceStyle: "automatic"` нужны для системной тёмной темы; не менять на `light`.
+- В компонентах стили создаются через `createStyles(theme)` + `useThemeStyles`; не держать цвета в module-level `StyleSheet.create`.
 - UI locale: `src/i18n/index.ts` берёт системный язык с fallback `ru`; поддерживается только `ru`. Не хардкодить строки в JSX и не связывать UI-язык с `sourceLanguage` курса.
 - Курс — пара языков (`ja-ru`); ID контента включают `courseId`. Второй язык — отдельный пак, не поля-переводы.
 - `content/ja-ru/index.ts` генерируется `content:validate`; не редактировать вручную.

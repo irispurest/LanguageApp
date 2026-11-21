@@ -3,9 +3,12 @@ import { StyleSheet } from 'react-native';
 import { strings } from '@/i18n';
 import { EmptyState } from '@/ui/components/EmptyState';
 import { Screen } from '@/ui/components/Screen';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 export function NotFoundScreen() {
   const router = useRouter();
+  const { styles } = useThemeStyles(createStyles);
 
   return (
     <Screen
@@ -25,8 +28,10 @@ export function NotFoundScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  content: {
-    justifyContent: 'center',
-  },
-});
+function createStyles(_theme: AppTheme) {
+  return StyleSheet.create({
+    content: {
+      justifyContent: 'center',
+    },
+  });
+}

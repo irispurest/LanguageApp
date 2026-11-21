@@ -8,7 +8,8 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
@@ -24,30 +25,31 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-const variants: Record<
-  ButtonVariant,
-  { container: ViewStyle; label: TextStyle; iconColor: string }
-> = {
-  primary: {
-    container: { backgroundColor: theme.colors.accent },
-    label: { color: theme.colors.onAccent },
-    iconColor: theme.colors.onAccent,
-  },
-  secondary: {
-    container: {
-      backgroundColor: theme.colors.surface,
-      borderColor: theme.colors.border,
-      borderWidth: StyleSheet.hairlineWidth,
+function getVariants(
+  theme: AppTheme,
+): Record<ButtonVariant, { container: ViewStyle; label: TextStyle; iconColor: string }> {
+  return {
+    primary: {
+      container: { backgroundColor: theme.colors.accent },
+      label: { color: theme.colors.onAccent },
+      iconColor: theme.colors.onAccent,
     },
-    label: { color: theme.colors.text },
-    iconColor: theme.colors.text,
-  },
-  ghost: {
-    container: { backgroundColor: 'transparent' },
-    label: { color: theme.colors.accentStrong },
-    iconColor: theme.colors.accentStrong,
-  },
-};
+    secondary: {
+      container: {
+        backgroundColor: theme.colors.surface,
+        borderColor: theme.colors.border,
+        borderWidth: StyleSheet.hairlineWidth,
+      },
+      label: { color: theme.colors.text },
+      iconColor: theme.colors.text,
+    },
+    ghost: {
+      container: { backgroundColor: 'transparent' },
+      label: { color: theme.colors.accentStrong },
+      iconColor: theme.colors.accentStrong,
+    },
+  };
+}
 
 export function AppButton({
   label,
@@ -58,6 +60,9 @@ export function AppButton({
   fullWidth = false,
   style,
 }: Props) {
+  const { theme, styles } = useThemeStyles(createStyles);
+  const variants = getVariants(theme);
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -81,28 +86,30 @@ export function AppButton({
   );
 }
 
-const styles = StyleSheet.create({
-  base: {
-    minHeight: 44,
-    borderRadius: theme.radius.pill,
-    paddingHorizontal: theme.spacing.lg,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: theme.spacing.sm,
-    alignSelf: 'flex-start',
-  },
-  label: {
-    ...theme.typography.body,
-    fontWeight: '600',
-  },
-  fullWidth: {
-    alignSelf: 'stretch',
-  },
-  pressed: {
-    opacity: 0.82,
-  },
-  disabled: {
-    opacity: 0.45,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    base: {
+      minHeight: 44,
+      borderRadius: theme.radius.pill,
+      paddingHorizontal: theme.spacing.lg,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: theme.spacing.sm,
+      alignSelf: 'flex-start',
+    },
+    label: {
+      ...theme.typography.body,
+      fontWeight: '600',
+    },
+    fullWidth: {
+      alignSelf: 'stretch',
+    },
+    pressed: {
+      opacity: 0.82,
+    },
+    disabled: {
+      opacity: 0.45,
+    },
+  });
+}

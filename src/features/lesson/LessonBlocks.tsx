@@ -1,13 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native';
 import type { LessonBlock } from '@/core/content/schemas';
 import { Card } from '@/ui/components/Card';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 type Props = {
   blocks: LessonBlock[];
 };
 
 export function LessonBlocks({ blocks }: Props) {
+  const { styles } = useThemeStyles(createStyles);
+
   return (
     <View style={styles.container}>
       {blocks.map((block, index) => {
@@ -62,46 +65,48 @@ export function LessonBlocks({ blocks }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    gap: theme.spacing.md,
-  },
-  paragraph: {
-    ...theme.typography.bodyLarge,
-    color: theme.colors.text,
-  },
-  exampleJapanese: {
-    fontSize: 24,
-    lineHeight: 32,
-    fontWeight: '600',
-    color: theme.colors.text,
-  },
-  exampleReading: {
-    ...theme.typography.body,
-    color: theme.colors.accentInk,
-  },
-  exampleTranslation: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-  },
-  note: {
-    ...theme.typography.body,
-    color: theme.colors.warning,
-  },
-  tableRow: {
-    flexDirection: 'row',
-    gap: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: theme.colors.border,
-  },
-  tableCell: {
-    ...theme.typography.caption,
-    flex: 1,
-    color: theme.colors.text,
-  },
-  tableHeader: {
-    fontWeight: '700',
-    color: theme.colors.textMuted,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    container: {
+      gap: theme.spacing.md,
+    },
+    paragraph: {
+      ...theme.typography.bodyLarge,
+      color: theme.colors.text,
+    },
+    exampleJapanese: {
+      fontSize: 24,
+      lineHeight: 32,
+      fontWeight: '600',
+      color: theme.colors.text,
+    },
+    exampleReading: {
+      ...theme.typography.body,
+      color: theme.colors.accentInk,
+    },
+    exampleTranslation: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+    },
+    note: {
+      ...theme.typography.body,
+      color: theme.colors.warning,
+    },
+    tableRow: {
+      flexDirection: 'row',
+      gap: theme.spacing.sm,
+      paddingVertical: theme.spacing.xs,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: theme.colors.border,
+    },
+    tableCell: {
+      ...theme.typography.caption,
+      flex: 1,
+      color: theme.colors.text,
+    },
+    tableHeader: {
+      fontWeight: '700',
+      color: theme.colors.textMuted,
+    },
+  });
+}

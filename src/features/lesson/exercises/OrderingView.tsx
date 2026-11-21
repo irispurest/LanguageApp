@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { OrderingExercise } from '@/core/content/schemas';
 import { strings } from '@/i18n';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 type Props = {
   exercise: OrderingExercise;
@@ -37,6 +38,7 @@ export function OrderingView({
   isCorrect,
   onChange,
 }: Props) {
+  const { styles } = useThemeStyles(createStyles);
   const [shuffled] = useState(() => shuffleIndices(exercise.tokens.length));
   const selected = new Set(order);
   const available = shuffled.filter((index) => !selected.has(index));
@@ -95,69 +97,71 @@ export function OrderingView({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    gap: theme.spacing.md,
-  },
-  hint: {
-    ...theme.typography.caption,
-    color: theme.colors.textMuted,
-  },
-  answerArea: {
-    minHeight: 64,
-    borderRadius: theme.radius.md,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border,
-    backgroundColor: theme.colors.surface,
-    padding: theme.spacing.sm,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: theme.spacing.sm,
-  },
-  answerAreaCorrect: {
-    backgroundColor: theme.colors.successSoft,
-    borderColor: theme.colors.success,
-  },
-  answerAreaWrong: {
-    backgroundColor: theme.colors.dangerSoft,
-    borderColor: theme.colors.danger,
-  },
-  placeholder: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-    paddingHorizontal: theme.spacing.sm,
-  },
-  bank: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: theme.spacing.sm,
-  },
-  token: {
-    minHeight: 42,
-    borderRadius: theme.radius.md,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border,
-    backgroundColor: theme.colors.surface,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tokenSelected: {
-    backgroundColor: theme.colors.accentSoft,
-    borderColor: theme.colors.accent,
-  },
-  tokenPressed: {
-    opacity: 0.8,
-  },
-  tokenText: {
-    ...theme.typography.body,
-    color: theme.colors.text,
-  },
-  tokenTextSelected: {
-    ...theme.typography.body,
-    fontWeight: '600',
-    color: theme.colors.accentInk,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    container: {
+      gap: theme.spacing.md,
+    },
+    hint: {
+      ...theme.typography.caption,
+      color: theme.colors.textMuted,
+    },
+    answerArea: {
+      minHeight: 64,
+      borderRadius: theme.radius.md,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.surface,
+      padding: theme.spacing.sm,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: theme.spacing.sm,
+    },
+    answerAreaCorrect: {
+      backgroundColor: theme.colors.successSoft,
+      borderColor: theme.colors.success,
+    },
+    answerAreaWrong: {
+      backgroundColor: theme.colors.dangerSoft,
+      borderColor: theme.colors.danger,
+    },
+    placeholder: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+      paddingHorizontal: theme.spacing.sm,
+    },
+    bank: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: theme.spacing.sm,
+    },
+    token: {
+      minHeight: 42,
+      borderRadius: theme.radius.md,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.surface,
+      paddingHorizontal: theme.spacing.md,
+      paddingVertical: theme.spacing.sm,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    tokenSelected: {
+      backgroundColor: theme.colors.accentSoft,
+      borderColor: theme.colors.accent,
+    },
+    tokenPressed: {
+      opacity: 0.8,
+    },
+    tokenText: {
+      ...theme.typography.body,
+      color: theme.colors.text,
+    },
+    tokenTextSelected: {
+      ...theme.typography.body,
+      fontWeight: '600',
+      color: theme.colors.accentInk,
+    },
+  });
+}

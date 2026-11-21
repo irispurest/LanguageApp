@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 type Props = {
   title: string;
@@ -22,6 +23,8 @@ export function Screen({
   contentStyle,
   children,
 }: Props) {
+  const { styles } = useThemeStyles(createStyles);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       {showHeader ? (
@@ -49,44 +52,46 @@ export function Screen({
   );
 }
 
-const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    gap: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.sm,
-    paddingBottom: theme.spacing.xs,
-  },
-  headerText: {
-    flex: 1,
-    gap: theme.spacing.xs,
-  },
-  title: {
-    ...theme.typography.display,
-    fontWeight: '700',
-    color: theme.colors.text,
-    letterSpacing: -0.5,
-  },
-  subtitle: {
-    ...theme.typography.body,
-    color: theme.colors.textMuted,
-  },
-  right: {
-    paddingTop: theme.spacing.xs,
-  },
-  content: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.md,
-    paddingBottom: theme.spacing.xxl,
-    gap: theme.spacing.md,
-  },
-  flex: {
-    flex: 1,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    safe: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      gap: theme.spacing.md,
+      paddingHorizontal: theme.spacing.lg,
+      paddingTop: theme.spacing.sm,
+      paddingBottom: theme.spacing.xs,
+    },
+    headerText: {
+      flex: 1,
+      gap: theme.spacing.xs,
+    },
+    title: {
+      ...theme.typography.display,
+      fontWeight: '700',
+      color: theme.colors.text,
+      letterSpacing: -0.5,
+    },
+    subtitle: {
+      ...theme.typography.body,
+      color: theme.colors.textMuted,
+    },
+    right: {
+      paddingTop: theme.spacing.xs,
+    },
+    content: {
+      paddingHorizontal: theme.spacing.lg,
+      paddingTop: theme.spacing.md,
+      paddingBottom: theme.spacing.xxl,
+      gap: theme.spacing.md,
+    },
+    flex: {
+      flex: 1,
+    },
+  });
+}

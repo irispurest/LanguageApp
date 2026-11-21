@@ -6,7 +6,8 @@ import { ContentRow } from '@/ui/components/ContentRow';
 import { EmptyState } from '@/ui/components/EmptyState';
 import { FilterChips, type FilterOption } from '@/ui/components/FilterChips';
 import { Screen } from '@/ui/components/Screen';
-import { theme } from '@/ui/theme';
+import { useThemeStyles } from '@/ui/ThemeProvider';
+import type { AppTheme } from '@/ui/theme';
 
 type Filter = 'all' | 'learned';
 
@@ -16,6 +17,7 @@ const filterOptions: ReadonlyArray<FilterOption<Filter>> = [
 ];
 
 export function GrammarScreen() {
+  const { styles } = useThemeStyles(createStyles);
   const [filter, setFilter] = useState<Filter>('all');
 
   return (
@@ -45,9 +47,11 @@ export function GrammarScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  draftNote: {
-    ...theme.typography.caption,
-    color: theme.colors.textMuted,
-  },
-});
+function createStyles(theme: AppTheme) {
+  return StyleSheet.create({
+    draftNote: {
+      ...theme.typography.caption,
+      color: theme.colors.textMuted,
+    },
+  });
+}
